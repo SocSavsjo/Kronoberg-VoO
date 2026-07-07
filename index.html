@@ -858,7 +858,7 @@
         <button class="tab-btn" type="button" data-tab="boenden">Boende ÄO/LSS</button>
     </nav>
 
-    <div class="info">Kronobergsversion: live-Kolada-delarna är aktiva för kommunerna i Kronobergs län. Flikar med inbäddade snapshots visas också, men behöver Kronobergsspecifika snapshotvärden innan siffrorna ska ses som färdiga.</div>
+    <div class="info">Kronobergsversion: live-Kolada-delarna är aktiva för kommunerna i Kronobergs län. Flikar som kräver inbäddade snapshots visas som datakö tills Kronobergsspecifika värden har lagts in.</div>
     <main>
         <section id="lss" class="tab-content active" aria-labelledby="LSS">
             <div class="toolbar">
@@ -1855,26 +1855,32 @@
     ];
 
     const socialstyrelsenComparisonRegions = [
-        { id: "684", title: "Växjö", color: "#005a9c" },
-        { id: "604", title: "Aneby", color: "#a35c00" },
-        { id: "685", title: "Vetlanda", color: "#2a7f62" },
-        { id: "686", title: "Eksjö", color: "#b23a48" },
-        { id: "682", title: "Nässjö", color: "#7a4cb0" },
-        { id: "687", title: "Tranås", color: "#4f6f8f" },
+        { id: "760", title: "Uppvidinge", color: "#005a9c" },
+        { id: "761", title: "Lessebo", color: "#2a7f62" },
+        { id: "763", title: "Tingsryd", color: "#a35c00" },
+        { id: "764", title: "Alvesta", color: "#7a4cb0" },
+        { id: "765", title: "Älmhult", color: "#b23a48" },
+        { id: "767", title: "Markaryd", color: "#4f6f8f" },
+        { id: "780", title: "Växjö", color: "#c04f15" },
+        { id: "781", title: "Ljungby", color: "#00856f" },
         { id: "highland", title: "Länets kommuner", color: "#222222" },
-        { id: "county", title: "Kronobergs län", color: "#c04f15" }
+        { id: "county", title: "Kronobergs län", color: "#c04f15" },
+        { id: "country", title: "Riket", color: "#737b88" }
     ];
 
-    const socialstyrelsenHighlandRegionIds = ["684", "604", "685", "686", "682", "687"];
+    const socialstyrelsenHighlandRegionIds = ["760", "761", "763", "764", "765", "767", "780", "781"];
 
     const socialstyrelsenComparisonTargets = [
-        { id: "highland", title: "Länets kommuner", rowIds: ["684", "604", "685", "686", "682", "687", "highland", "county"] },
-        { id: "county", title: "Kronobergs län", rowIds: ["684", "county"] },
-        { id: "aneby", title: "Aneby", rowIds: ["684", "604", "highland", "county"] },
-        { id: "vetlanda", title: "Vetlanda", rowIds: ["684", "685", "highland", "county"] },
-        { id: "eksjo", title: "Eksjö", rowIds: ["684", "686", "highland", "county"] },
-        { id: "nassjo", title: "Nässjö", rowIds: ["684", "682", "highland", "county"] },
-        { id: "tranas", title: "Tranås", rowIds: ["684", "687", "highland", "county"] }
+        { id: "highland", title: "Kronobergs kommuner", rowIds: ["760", "761", "763", "764", "765", "767", "780", "781", "highland", "county", "country"] },
+        { id: "county", title: "Kronobergs län och riket", rowIds: ["county", "country"] },
+        { id: "uppvidinge", title: "Uppvidinge", rowIds: ["760", "county", "country"] },
+        { id: "lessebo", title: "Lessebo", rowIds: ["761", "county", "country"] },
+        { id: "tingsryd", title: "Tingsryd", rowIds: ["763", "county", "country"] },
+        { id: "alvesta", title: "Alvesta", rowIds: ["764", "county", "country"] },
+        { id: "almhult", title: "Älmhult", rowIds: ["765", "county", "country"] },
+        { id: "markaryd", title: "Markaryd", rowIds: ["767", "county", "country"] },
+        { id: "vaxjo", title: "Växjö", rowIds: ["780", "county", "country"] },
+        { id: "ljungby", title: "Ljungby", rowIds: ["781", "county", "country"] }
     ];
 
     const socialstyrelsenAgeOptions = [
@@ -1907,12 +1913,12 @@
     const socialstyrelsenHomeCareHoursData = {"2024":{"1":316,"2":114,"3":82,"5":0,"4":83},"2025":{"1":319,"2":120,"3":78,"4":87,"5":0}};
     const socialstyrelsenMonthlyData = {"2025":{"2":347,"3":349,"4":349,"5":344,"6":353,"7":348,"8":351,"1":349,"11":356,"10":356,"12":357,"9":353},"2026":{"1":365,"2":373,"3":370,"4":364,"8":null,"9":null,"11":null,"12":null,"5":null,"6":null,"7":null,"10":null}};
 
-    const sosHslIndicators = [{"id":"all","title":"Samtliga patienter","description":"Patienter med minst en KVÅ-kod","age":["1","2","3","4"],"gender":"3","ygrp":"0","ind":"TOT","ind2":"i_TOT_1","format":"number","color":"#005a9c"},{"id":"age-18-64","title":"18-64 år","description":"Patienter med minst en KVÅ-kod","age":["2"],"gender":"3","ygrp":"0","ind":"TOT","ind2":"i_TOT_1","format":"number","color":"#2f74a8"},{"id":"age-65-79","title":"65-79 år","description":"Patienter med minst en KVÅ-kod","age":["3"],"gender":"3","ygrp":"0","ind":"TOT","ind2":"i_TOT_1","format":"number","color":"#2a7f62"},{"id":"age-80","title":"80+ år","description":"Patienter med minst en KVÅ-kod","age":["4"],"gender":"3","ygrp":"0","ind":"TOT","ind2":"i_TOT_1","format":"number","color":"#7a4cb0"}];
-    const sosHslComparisonData = {"all":{"2024":{"604":397,"684":684,"682":1698,"685":1832,"687":1194,"686":1044,"county":19469},"2025":{"682":1778,"684":703,"685":1807,"686":1068,"687":1244,"county":19904,"604":407}},"age-18-64":{"2024":{"604":81,"682":320,"685":309,"684":135,"686":135,"county":3126,"687":192},"2025":{"604":82,"684":150,"685":298,"686":158,"687":154,"county":3190,"682":343}},"age-65-79":{"2024":{"604":113,"682":496,"684":161,"685":484,"686":282,"687":293,"county":5221},"2025":{"684":156,"685":487,"687":300,"county":5166,"686":273,"604":113,"682":500}},"age-80":{"2024":{"604":192,"682":879,"684":379,"685":1020,"686":618,"687":702,"county":10968},"2025":{"682":924,"684":389,"686":626,"687":783,"county":11385,"685":1005,"604":206}}};
+    const sosHslIndicators = [{"id":"all","title":"Samtliga patienter","description":"Personer som någon gång under året mottagit kommunal hälso- och sjukvård","format":"number","color":"#005a9c"},{"id":"age-0-64","title":"0-64 år","description":"Samtliga personer 0-64 år","format":"number","color":"#2f74a8"},{"id":"age-65-79","title":"65-79 år","description":"Samtliga personer 65-79 år","format":"number","color":"#2a7f62"},{"id":"age-80","title":"80+ år","description":"Samtliga personer 80 år och äldre","format":"number","color":"#7a4cb0"}];
+    const sosHslComparisonData = {"all":{"2025":{"country":404077,"county":12988,"760":639,"761":681,"763":1184,"764":1328,"765":1177,"767":740,"780":4822,"781":2469},"2024":{"country":405646,"county":11882,"760":656,"761":669,"763":1144,"764":1357,"765":1079,"767":715,"780":4740,"781":1553}},"age-0-64":{"2025":{"country":68599,"county":2275,"760":100,"761":116,"763":224,"764":216,"765":175,"767":158,"780":897,"781":408},"2024":{"country":69926,"county":2095,"760":108,"761":126,"763":208,"764":233,"765":149,"767":152,"780":904,"781":222}},"age-65-79":{"2025":{"country":107844,"county":3492,"760":170,"761":217,"763":308,"764":372,"765":340,"767":167,"780":1275,"781":652},"2024":{"country":112378,"county":3280,"760":174,"761":186,"763":331,"764":372,"765":318,"767":163,"780":1330,"781":421}},"age-80":{"2025":{"country":227634,"county":7221,"760":369,"761":348,"763":652,"764":740,"765":662,"767":415,"780":2650,"781":1409},"2024":{"country":223342,"county":6507,"760":374,"761":357,"763":605,"764":752,"765":612,"767":400,"780":2506,"781":910}}};
     const sosEkbIndicators = [{"id":"paid-excl","title":"Utbetalt bistånd","description":"Exklusive introduktionsersättning","matt":"2","format":"thousandCurrency","color":"#005a9c"},{"id":"recipients","title":"Biståndsmottagare","description":"Antal mottagare inklusive barn","matt":"4","format":"number","color":"#2a7f62"},{"id":"households","title":"Biståndshushåll","description":"Antal hushåll","matt":"5","format":"number","color":"#7a4cb0"},{"id":"adult-recipients","title":"Mottagare 18+","description":"Antal biståndsmottagare 18 år och äldre","matt":"6","format":"number","color":"#c04f15"}];
-    const sosEkbComparisonData = {"paid-excl":{"2025":{"684":15670,"686":27647,"682":62589,"685":32788,"604":5217,"county":369722,"687":28346},"2024":{"686":25268,"682":57530,"604":5494,"684":16697,"county":335763,"687":26807,"685":30822}},"recipients":{"2024":{"682":1002,"685":586,"684":348,"686":454,"604":131,"687":502,"county":6319},"2025":{"682":1011,"604":130,"684":306,"686":438,"county":6560,"687":455,"685":551}},"households":{"2024":{"604":109,"682":790,"684":276,"685":457,"county":5207,"687":420,"686":371},"2025":{"682":802,"604":108,"684":238,"687":384,"county":5420,"686":361,"685":439}},"adult-recipients":{"2024":{"684":348,"685":586,"686":454,"687":502,"county":6319,"604":131,"682":1002},"2025":{"604":130,"682":1011,"684":306,"685":551,"686":438,"687":455,"county":6560}}};
+    const sosEkbComparisonData = {"households":{"2025":{"country":141879,"county":3315,"760":145,"761":149,"763":178,"764":483,"765":225,"767":49,"780":1813,"781":320},"2024":{"country":145456,"county":3110,"760":168,"761":139,"763":172,"764":437,"765":245,"767":43,"780":1619,"781":321}},"paid-excl":{"2025":{"country":11192520,"county":244220,"760":10911,"761":8948,"763":12346,"764":34378,"765":13082,"767":3310,"780":140915,"781":20329},"2024":{"country":10915807,"county":223392,"760":11722,"761":8130,"763":11073,"764":31221,"765":16062,"767":2485,"780":123063,"781":19635}},"recipients":{"2025":{"country":246676,"county":6110,"760":265,"761":329,"763":293,"764":940,"765":452,"767":129,"780":3247,"781":539},"2024":{"country":251425,"county":5849,"760":318,"761":310,"763":318,"764":854,"765":540,"767":106,"780":2912,"781":570}},"adult-recipients":{"2025":{"country":173976,"county":4075,"760":182,"761":188,"763":206,"764":603,"765":300,"767":72,"780":2209,"781":376},"2024":{"country":174016,"county":3897,"760":213,"761":173,"763":211,"764":546,"765":346,"767":56,"780":2008,"781":390}}};
     const sosLssIndicators = [{"id":"persons","title":"Personer med LSS-insats","description":"Antal personer med minst en verkställd kommunalt beslutad LSS-insats","format":"number","unit":"personer","color":"#005a9c"},{"id":"daily","title":"Daglig verksamhet","description":"Antal insatser enligt LSS, daglig verksamhet","format":"number","unit":"insatser","color":"#2a7f62"},{"id":"adultHousing","title":"Boende vuxna","description":"Antal insatser enligt LSS, bostad med särskild service för vuxna","format":"number","unit":"insatser","color":"#7a4cb0"},{"id":"contact","title":"Kontaktperson","description":"Antal insatser enligt LSS, kontaktperson","format":"number","unit":"insatser","color":"#c04f15"}];
-    const sosLssComparisonData = {"persons":{"2025":{"county":2920,"604":53,"682":284,"684":103,"685":221,"686":169,"687":194}},"daily":{"2025":{"county":1617,"604":32,"682":175,"684":64,"685":138,"686":104,"687":128}},"adultHousing":{"2025":{"county":1169,"604":21,"682":125,"684":32,"685":68,"686":62,"687":59}},"contact":{"2025":{"county":444,"604":10,"682":50,"684":26,"685":38,"686":9,"687":13}}};
+    const sosLssComparisonData = {"persons":{"2025":{"country":82760,"county":1874,"760":60,"761":80,"763":132,"764":168,"765":128,"767":89,"780":901,"781":316},"2024":{"country":81041,"county":1790,"760":57,"761":70,"763":135,"764":168,"765":123,"767":97,"780":850,"781":290}},"daily":{"2025":{"country":46137,"county":927,"760":28,"761":29,"763":71,"764":96,"765":70,"767":57,"780":401,"781":175},"2024":{"country":44297,"county":893,"760":29,"761":30,"763":70,"764":90,"765":64,"767":57,"780":388,"781":165}},"adultHousing":{"2025":{"country":30473,"county":693,"760":24,"761":21,"763":48,"764":47,"765":51,"767":37,"780":342,"781":123},"2024":{"country":30389,"county":682,"760":22,"761":21,"763":48,"764":46,"765":53,"767":35,"780":336,"781":121}},"contact":{"2025":{"country":16932,"county":408,"760":10,"761":20,"763":39,"764":50,"765":36,"767":23,"780":153,"781":77},"2024":{"country":16919,"county":379,"760":9,"761":13,"763":38,"764":54,"765":37,"767":25,"780":144,"781":59}}};
 
     const comparisonMunicipalities = [
         { id: "0760", title: "Uppvidinge", color: "#005a9c" },
@@ -1973,10 +1979,10 @@
     function socialstyrelsenTargetRowIds(target) {
         const currentId = currentSocialstyrelsenRegionId();
         if (target.id === "highland") {
-            return [...new Set([currentId, ...socialstyrelsenHighlandRegionIds.filter(id => id !== currentId), "highland", "county"])];
+            return [...new Set([currentId, ...socialstyrelsenHighlandRegionIds.filter(id => id !== currentId), "highland", "county", "country"])];
         }
         if (target.id === "county") {
-            return [currentId, "county"];
+            return [currentId, "county", "country"];
         }
         return [...new Set([currentId, ...target.rowIds.filter(id => id !== currentId && id !== "684")])];
     }
@@ -3691,6 +3697,8 @@
     });
 
     window.addEventListener("resize", () => {
+        const activeTabId = document.querySelector(".tab-btn.active")?.dataset.tab;
+        if (kronobergPendingSnapshotTabs[activeTabId]) return;
         if (document.getElementById("socialstyrelsen")?.classList.contains("active")) {
             renderSocialstyrelsenVisuals();
         }
@@ -3711,10 +3719,9 @@
     async function init() {
         setupMunicipalitySelector();
         renderAllCards();
-        setupSocialstyrelsenTab();
-        setupSocialstyrelsenMoreTabs();
-        setupFohmControls();
         renderEmbeddedComparisonPanels();
+        setupKronobergSnapshotPlaceholders();
+        setupSocialstyrelsenMoreTabs();
         registerComparisonPanel("main-comparison", {
             selectId: "comparison-select",
             titleId: "comparison-title",
@@ -3732,21 +3739,12 @@
         updateMunicipalityLabels();
         await loadUnits();
         await Promise.all(Object.keys(dashboards).map(renderDashboard));
-        renderSocialstyrelsenCards();
-        renderSocialstyrelsenVisuals();
         Object.keys(sosSourceConfigs).forEach(sourceId => {
             renderSosSourceCards(sourceId);
             renderSosSourceComparison(sourceId);
         });
         await renderKommundataInsights();
         await renderEconomyResultCard();
-        renderFohmDashboard();
-        renderJobsDashboard();
-        afRenderUnemploymentDashboard();
-        renderBraCrimeDashboard();
-        renderMigrationDashboard();
-        renderFkDashboard();
-        renderBmeHousingDashboard();
         await Promise.all([...comparisonPanels.keys()].map(renderComparison));
     }
 
@@ -3784,6 +3782,7 @@
             tab.classList.toggle("active", tab.id === tabId);
         });
 
+        if (kronobergPendingSnapshotTabs[tabId]) return;
         if (tabId === "socialstyrelsen") {
             requestAnimationFrame(renderSocialstyrelsenVisuals);
         }
@@ -4441,6 +4440,75 @@
         ctx.lineTo(padding, padding + chartHeight);
         ctx.lineTo(padding + chartWidth, padding + chartHeight);
         ctx.stroke();
+    }
+
+    const kronobergPendingSnapshotTabs = {
+        socialstyrelsen: {
+            title: "SoS Äldreomsorg",
+            source: "Socialstyrelsens äldreomsorgsstatistik"
+        },
+        folkhalsa: {
+            title: "Folkhälsa",
+            source: "Folkhälsomyndighetens FolkhälsoStudio"
+        },
+        jobb: {
+            title: "Lediga jobb",
+            source: "Arbetsförmedlingens Platsbanken och Historical Ads API"
+        },
+        arbetsloshet: {
+            title: "Arbetslöshet",
+            source: "Arbetsförmedlingens statistikverktyg"
+        },
+        brott: {
+            title: "Brott",
+            source: "Brås statistikdatabas"
+        },
+        migration: {
+            title: "Migration",
+            source: "Migrationsverkets öppna data"
+        },
+        forsakringskassan: {
+            title: "Försäkringskassan",
+            source: "Försäkringskassans statistikdatabas"
+        },
+        boenden: {
+            title: "Boende ÄO/LSS",
+            source: "Boverkets bostadsmarknadsenkät och Socialstyrelsens LSS-statistik"
+        }
+    };
+
+    function setupKronobergSnapshotPlaceholders() {
+        const municipalityList = comparisonMunicipalities
+            .map(municipality => `<span class="legend-item"><span class="legend-color" style="background:${municipality.color}"></span>${municipality.title}</span>`)
+            .join("");
+
+        Object.entries(kronobergPendingSnapshotTabs).forEach(([tabId, meta]) => {
+            const section = document.getElementById(tabId);
+            if (!section) return;
+            section.innerHTML = `
+                <div class="info">${meta.title} finns kvar som flik, men den statiska datan behöver byggas om för Kronobergs län innan den visas.</div>
+                <article class="comparison-card">
+                    <h3>${meta.title}</h3>
+                    <p class="insight-note">Den tidigare versionen hade inbäddade snapshotvärden för en annan kommungrupp. För att undvika felaktiga siffror är den här fliken pausad tills ${meta.source} har hämtats och lagts in för Kronobergs kommuner, Kronobergs län och riket där det finns.</p>
+                    <div class="legend">${municipalityList}</div>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Källa</th>
+                                <th>Urval som ska byggas in</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Väntar på Kronobergs-snapshot</td>
+                                <td>${meta.source}</td>
+                                <td>Uppvidinge, Lessebo, Tingsryd, Alvesta, Älmhult, Markaryd, Växjö och Ljungby</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>`;
+        });
     }
 
     function cardKey(card) {
