@@ -858,7 +858,7 @@
         <button class="tab-btn" type="button" data-tab="boenden">Boende ÄO/LSS</button>
     </nav>
 
-    <div class="info">Kronobergsversion: live-Kolada-delarna är aktiva för kommunerna i Kronobergs län. Flikar som kräver inbäddade snapshots visas som datakö tills Kronobergsspecifika värden har lagts in.</div>
+    <div class="info">Kronobergsversion: live-Kolada-delarna är aktiva för kommunerna i Kronobergs län. SoS Äldreomsorg är kvar som datakö tills Kronobergsspecifika snapshotvärden har lagts in.</div>
     <main>
         <section id="lss" class="tab-content active" aria-labelledby="LSS">
             <div class="toolbar">
@@ -1609,7 +1609,7 @@
                 <div class="grid job-cards">
                     <article class="card" style="--card-accent:#005a9c">
                         <h3><span data-main-municipality-full>Växjö kommun</span></h3>
-                        <div class="kpi-id">Särskilt boende, kommunala platser</div>
+                        <div class="kpi-id">Särskilt boende, platser totalt</div>
                         <div class="value" id="bme-main-sabo">-</div>
                         <div class="delta neutral" id="bme-main-sabo-note"></div>
                     </article>
@@ -1948,14 +1948,14 @@
     };
 
     const jobMunicipalities = [
-        { id: "0760", title: "Uppvidinge", concept: "" },
-        { id: "0761", title: "Lessebo", concept: "" },
-        { id: "0763", title: "Tingsryd", concept: "" },
-        { id: "0764", title: "Alvesta", concept: "" },
-        { id: "0765", title: "Älmhult", concept: "" },
-        { id: "0767", title: "Markaryd", concept: "" },
-        { id: "0780", title: "Växjö", concept: "" },
-        { id: "0781", title: "Ljungby", concept: "" }
+        { id: "0760", title: "Uppvidinge", concept: "78cu_S5T_Pgp" },
+        { id: "0761", title: "Lessebo", concept: "nXZy_1Jd_D8X" },
+        { id: "0763", title: "Tingsryd", concept: "qz8Q_kDz_N2Y" },
+        { id: "0764", title: "Alvesta", concept: "MMph_wmN_esc" },
+        { id: "0765", title: "Älmhult", concept: "EK6X_wZq_CQ8" },
+        { id: "0767", title: "Markaryd", concept: "ZhVf_yL5_Q5g" },
+        { id: "0780", title: "Växjö", concept: "mmot_H3A_auW" },
+        { id: "0781", title: "Ljungby", concept: "GzKo_S48_QCm" }
     ];
 
     function currentMunicipality() {
@@ -2008,8 +2008,8 @@
                 id: "county",
                 title: "Kronobergs län",
                 color: "#c04f15",
-                filters: [{ type: "region", value: "MtbE_xWT_eMi" }],
-                historicalParams: [{ key: "region", value: "MtbE_xWT_eMi" }]
+                filters: [{ type: "region", value: "tF3y_MF9_h5G" }],
+                historicalParams: [{ key: "region", value: "tF3y_MF9_h5G" }]
             }
         ];
     }
@@ -2021,19 +2021,7 @@
     }
 
 
-    const bmeHousingData = {
-        source: "Boverkets bostadsmarknadsenkät 2026, öppna data: Äldre - BME 2026",
-        sourceUrl: "https://www.boverket.se/sv/om-boverket/oppna-data/bostadsmarknadsenkaten/",
-        year: 2026,
-        municipalities: [
-            { id: "0604", name: "Aneby", saboStatus: "Balans", saboNeed2: "Ja", saboNeed5: "Nej", saboMunicipal: 63, saboPurchased: 0, shortTerm: 8, individualNeedsTestedSecurity: "Nej", securityHousing: "Ja", securityStatus: "Balans", securityNeed: "", securityNeed2: "Ja", securityNeed5: "Nej", seniorHousing: "Nej", seniorStatus: "", seniorNeed: "Ja, det finns ett behov" },
-            { id: "0686", name: "Eksjö", saboStatus: "Balans", saboNeed2: "Ja", saboNeed5: "Kan inte bedöma", saboMunicipal: 188, saboPurchased: 0, shortTerm: 16, individualNeedsTestedSecurity: "Nej", securityHousing: "Ja", securityStatus: "Underskott", securityNeed: "", securityNeed2: "Nej", securityNeed5: "Ja", seniorHousing: "Nej", seniorStatus: "", seniorNeed: "Nej" },
-            { id: "0682", name: "Nässjö", saboStatus: "Underskott", saboNeed2: "Ja", saboNeed5: "Ja", saboMunicipal: 275, saboPurchased: 0, shortTerm: 35, individualNeedsTestedSecurity: "Nej", securityHousing: "Ja", securityStatus: "Underskott", securityNeed: "", securityNeed2: "Kan inte bedöma", securityNeed5: "Kan inte bedöma", seniorHousing: "Ja", seniorStatus: "Underskott", seniorNeed: "" },
-            { id: "0684", name: "Växjö", saboStatus: "Balans", saboNeed2: "Ja", saboNeed5: "Ja", saboMunicipal: 99, saboPurchased: 0, shortTerm: 20, individualNeedsTestedSecurity: "Nej", securityHousing: "Ja", securityStatus: "Överskott", securityNeed: "", securityNeed2: "Ja", securityNeed5: "Ja", seniorHousing: "Ja", seniorStatus: "Överskott", seniorNeed: "" },
-            { id: "0687", name: "Tranås", saboStatus: "Balans", saboNeed2: "Ja", saboNeed5: "Ja", saboMunicipal: 222, saboPurchased: 0, shortTerm: 16, individualNeedsTestedSecurity: "Nej", securityHousing: "Nej", securityStatus: "", securityNeed: "Ja", securityNeed2: "Nej", securityNeed5: "Ja", seniorHousing: "Ja", seniorStatus: "Underskott", seniorNeed: "" },
-            { id: "0685", name: "Vetlanda", saboStatus: "Underskott", saboNeed2: "Nej", saboNeed5: "Kan inte bedöma", saboMunicipal: 307, saboPurchased: 0, shortTerm: 26, individualNeedsTestedSecurity: "Nej", securityHousing: "Ja", securityStatus: "Underskott", securityNeed: "", securityNeed2: "Nej", securityNeed5: "Kan inte bedöma", seniorHousing: "Ja", seniorStatus: "Underskott", seniorNeed: "" }
-        ]
-    };
+    const bmeHousingData = {"source":"Boverkets bostadsmarknadsenkät 2026, öppna data: Äldre - BME 2026","sourceUrl":"https://www.boverket.se/sv/om-boverket/oppna-data/bostadsmarknadsenkaten/","year":2026,"municipalities":[{"id":"0760","name":"Uppvidinge","saboStatus":"Överskott - ett överskott av platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Ja","saboMunicipal":65,"saboPurchased":23,"shortTerm":5,"individualNeedsTestedSecurity":"Nej","securityHousing":"Nej","securityStatus":"","securityNeed":"Ja","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Nej","seniorStatus":"","seniorNeed":"Ja, det finns ett behov"},{"id":"0761","name":"Lessebo","saboStatus":"Balans – ett tillräckligt antal platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Ja","saboMunicipal":62,"saboPurchased":0,"shortTerm":8,"individualNeedsTestedSecurity":"Nej","securityHousing":"Nej","securityStatus":"","securityNeed":"Vet ej","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Ja","seniorStatus":"Balans på bostadsmarknaden","seniorNeed":""},{"id":"0763","name":"Tingsryd","saboStatus":"Balans – ett tillräckligt antal platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Ja","saboMunicipal":181,"saboPurchased":0,"shortTerm":10,"individualNeedsTestedSecurity":"Nej","securityHousing":"Nej","securityStatus":"","securityNeed":"Nej","securityNeed2":"Inte aktuellt","securityNeed5":"Inte aktuellt","seniorHousing":"Nej","seniorStatus":"","seniorNeed":"Ja, det finns ett behov"},{"id":"0764","name":"Alvesta","saboStatus":"Balans – ett tillräckligt antal platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Nej","saboMunicipal":187,"saboPurchased":1,"shortTerm":17,"individualNeedsTestedSecurity":"Nej","securityHousing":"Ja","securityStatus":"Överskott på bostäder","securityNeed":"","securityNeed2":"Ja","securityNeed5":"Ja","seniorHousing":"Ja","seniorStatus":"Överskott på bostäder","seniorNeed":""},{"id":"0765","name":"Älmhult","saboStatus":"Balans – ett tillräckligt antal platser i förhållande till behovet","saboNeed2":"Kan inte bedöma","saboNeed5":"Kan inte bedöma","saboMunicipal":140,"saboPurchased":0,"shortTerm":11,"individualNeedsTestedSecurity":"Nej","securityHousing":"Ja","securityStatus":"Balans på bostadsmarknaden","securityNeed":"","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Ja","seniorStatus":"Balans på bostadsmarknaden","seniorNeed":""},{"id":"0767","name":"Markaryd","saboStatus":"Balans – ett tillräckligt antal platser i förhållande till behovet","saboNeed2":"Kan inte bedöma","saboNeed5":"Kan inte bedöma","saboMunicipal":111,"saboPurchased":0,"shortTerm":8,"individualNeedsTestedSecurity":"Nej","securityHousing":"Ja","securityStatus":"Balans på bostadsmarknaden","securityNeed":"","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Nej","seniorStatus":"","seniorNeed":"Vet ej"},{"id":"0780","name":"Växjö","saboStatus":"Underskott – ett otillräckligt antal platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Ja","saboMunicipal":463,"saboPurchased":270,"shortTerm":68,"individualNeedsTestedSecurity":"Nej","securityHousing":"Ja","securityStatus":"Balans på bostadsmarknaden","securityNeed":"","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Ja","seniorStatus":"Underskott på bostäder","seniorNeed":""},{"id":"0781","name":"Ljungby","saboStatus":"Överskott - ett överskott av platser i förhållande till behovet","saboNeed2":"Ja","saboNeed5":"Ja","saboMunicipal":331,"saboPurchased":0,"shortTerm":25,"individualNeedsTestedSecurity":"Nej","securityHousing":"Ja","securityStatus":"Underskott på bostäder","securityNeed":"","securityNeed2":"Kan inte bedöma","securityNeed5":"Kan inte bedöma","seniorHousing":"Nej","seniorStatus":"","seniorNeed":"Nej"}]};
 
     const fkData = {"source":"Försäkringskassan statistikdatabas, öppna API","snapshotDate":"2026-06-30","highlandMunicipalities":[{"key":"0604","name":"Aneby"},{"key":"0686","name":"Eksjö"},{"key":"0682","name":"Nässjö"},{"key":"0684","name":"Växjö"},{"key":"0687","name":"Tranås"},{"key":"0685","name":"Vetlanda"}],"vab":{"year":2025,"label":"VAB / tillfällig föräldrapenning","main":{"key":"0684","name":"Växjö","recipients":1054,"netDays":7666,"amountKsek":8920},"highland":{"recipients":9842,"netDays":70523,"amountKsek":82063},"county":{"recipients":33114,"netDays":241026,"amountKsek":283388},"municipalities":[{"key":"0604","name":"Aneby","recipients":678,"netDays":4332,"amountKsek":5177},{"key":"0686","name":"Eksjö","recipients":1515,"netDays":10151,"amountKsek":11889},{"key":"0682","name":"Nässjö","recipients":2745,"netDays":19834,"amountKsek":23175},{"key":"0684","name":"Växjö","recipients":1054,"netDays":7666,"amountKsek":8920},{"key":"0687","name":"Tranås","recipients":1527,"netDays":11918,"amountKsek":13765},{"key":"0685","name":"Vetlanda","recipients":2323,"netDays":16622,"amountKsek":19137}]},"sicknessActivity":{"period":"2026-05","label":"Sjuk- och aktivitetsersättning","main":{"key":"0684","name":"Växjö","recipients":324,"amountKsek":4330},"highland":{"recipients":3400,"amountKsek":44892},"county":{"recipients":10360,"amountKsek":137696},"municipalities":[{"key":"0604","name":"Aneby","recipients":194,"amountKsek":2667},{"key":"0686","name":"Eksjö","recipients":550,"amountKsek":7082},{"key":"0682","name":"Nässjö","recipients":968,"amountKsek":13054},{"key":"0684","name":"Växjö","recipients":324,"amountKsek":4330},{"key":"0687","name":"Tranås","recipients":595,"amountKsek":7929},{"key":"0685","name":"Vetlanda","recipients":769,"amountKsek":9830}]},"sickPayCounty":{"year":2025,"label":"Sjukpenning och rehabiliteringspenning","recipients":21716,"netDays":2071234,"amountKsek":1470853}};
 
@@ -2128,12 +2116,14 @@
 
     function renderLssHousingDashboard() {
         const regionOrder = [
-            { id: "604", htmlId: "0604", name: "Aneby" },
-            { id: "686", htmlId: "0686", name: "Eksjö" },
-            { id: "682", htmlId: "0682", name: "Nässjö" },
-            { id: "684", htmlId: "0684", name: "Växjö" },
-            { id: "687", htmlId: "0687", name: "Tranås" },
-            { id: "685", htmlId: "0685", name: "Vetlanda" }
+            { id: "760", htmlId: "0760", name: "Uppvidinge" },
+            { id: "761", htmlId: "0761", name: "Lessebo" },
+            { id: "763", htmlId: "0763", name: "Tingsryd" },
+            { id: "764", htmlId: "0764", name: "Alvesta" },
+            { id: "765", htmlId: "0765", name: "Älmhult" },
+            { id: "767", htmlId: "0767", name: "Markaryd" },
+            { id: "780", htmlId: "0780", name: "Växjö" },
+            { id: "781", htmlId: "0781", name: "Ljungby" }
         ];
         const selectedRegionId = String(Number(selectedMunicipalityId));
         const number = value => Number.isFinite(value) ? formatValue(value, "number") : "-";
@@ -3699,6 +3689,14 @@
     window.addEventListener("resize", () => {
         const activeTabId = document.querySelector(".tab-btn.active")?.dataset.tab;
         if (kronobergPendingSnapshotTabs[activeTabId]) return;
+        if (kronobergLiveTabConfigs[activeTabId]) {
+            renderKronobergLiveTab(activeTabId);
+            return;
+        }
+        if (activeTabId === "boenden") {
+            renderBmeHousingDashboard();
+            return;
+        }
         if (document.getElementById("socialstyrelsen")?.classList.contains("active")) {
             renderSocialstyrelsenVisuals();
         }
@@ -3707,9 +3705,6 @@
                 renderSosSourceComparison(sourceId);
             }
         });
-        if (document.getElementById("folkhalsa")?.classList.contains("active")) {
-            renderFohmDashboard();
-        }
     });
 
     document.getElementById("comparison-select").addEventListener("change", () => renderComparison("main-comparison"));
@@ -3720,6 +3715,7 @@
         setupMunicipalitySelector();
         renderAllCards();
         renderEmbeddedComparisonPanels();
+        setupKronobergLiveTabs();
         setupKronobergSnapshotPlaceholders();
         setupSocialstyrelsenMoreTabs();
         registerComparisonPanel("main-comparison", {
@@ -3746,6 +3742,7 @@
         await renderKommundataInsights();
         await renderEconomyResultCard();
         await Promise.all([...comparisonPanels.keys()].map(renderComparison));
+        await renderActiveKronobergExtraTab();
     }
 
     function setupMunicipalitySelector() {
@@ -3783,14 +3780,23 @@
         });
 
         if (kronobergPendingSnapshotTabs[tabId]) return;
+        if (kronobergLiveTabConfigs[tabId]) {
+            requestAnimationFrame(() => renderKronobergLiveTab(tabId));
+            return;
+        }
+        if (tabId === "jobb") {
+            requestAnimationFrame(renderJobsDashboard);
+            return;
+        }
+        if (tabId === "boenden") {
+            requestAnimationFrame(renderBmeHousingDashboard);
+            return;
+        }
         if (tabId === "socialstyrelsen") {
             requestAnimationFrame(renderSocialstyrelsenVisuals);
         }
         if (sosSourceConfigs[tabId]) {
             requestAnimationFrame(() => renderSosSourceComparison(tabId));
-        }
-        if (tabId === "folkhalsa") {
-            requestAnimationFrame(renderFohmDashboard);
         }
     }
 
@@ -4442,38 +4448,257 @@
         ctx.stroke();
     }
 
+    const KRONOBERG_COUNTY_ID = "0007";
+    const KRONOBERG_COUNTRY_ID = "0000";
+    const kronobergLiveMetricCache = new Map();
+    const kronobergLiveTabConfigs = {
+        folkhalsa: {
+            title: "Folkhälsa",
+            note: "Folkhälsorelaterade kommunmått hämtas live från Kolada för Kronobergs kommuner, länet och riket.",
+            metrics: [
+                { id: "N00957", title: "Ohälsotal", group: "Hälsa", format: "number", aggregate: "avg", suffix: " dagar" },
+                { id: "N20402", title: "Fallskador bland personer 80+", group: "Äldre", format: "number", aggregate: "avg" },
+                { id: "N20434", title: "Fallskador 80+, vårdtillfällen per 100 000 inv.", group: "Äldre", format: "number", aggregate: "avg" },
+                { id: "N21701", title: "Invånare 65+ med hemtjänst", group: "Äldreomsorg", format: "percent", aggregate: "avg" },
+                { id: "N20036", title: "Årsarbetare, kommunalt anställda sjuksköterskor", group: "Personal", format: "number", aggregate: "avg" }
+            ]
+        },
+        arbetsloshet: {
+            title: "Arbetslöshet",
+            note: "Arbetsmarknadsmåtten hämtas live från Kolada. Tabellen visar vald kommun, övriga kommuner i Kronoberg, länet och riket.",
+            metrics: [
+                { id: "N02280", title: "Arbetslöshet 20-64 år", group: "Arbete", format: "percent", aggregate: "avg" },
+                { id: "N03921", title: "Arbetslöshet 16-24 år", group: "Arbete", format: "percent", aggregate: "avg" },
+                { id: "N02267", title: "Sysselsättningsgrad 20-64 år", group: "Arbete", format: "percent", aggregate: "avg" },
+                { id: "N02282", title: "Arbetslöshet utrikes födda 20-64 år", group: "Arbete", format: "percent", aggregate: "avg" }
+            ]
+        },
+        brott: {
+            title: "Brott",
+            note: "Brottsmåtten hämtas live från Kolada. För de anmälda brottskategorierna visas Koladas senast tillgängliga årsserie.",
+            metrics: [
+                { id: "N07540", title: "Anmälda brott totalt", group: "Anmälda brott", format: "number", aggregate: "sum", per100kToCount: true },
+                { id: "N07403", title: "Anmälda våldsbrott", group: "Anmälda brott", format: "number", aggregate: "sum", per100kToCount: true },
+                { id: "N07537", title: "Anmälda sexualbrott", group: "Anmälda brott", format: "number", aggregate: "sum", per100kToCount: true },
+                { id: "N07544", title: "Anmälda narkotikabrott", group: "Anmälda brott", format: "number", aggregate: "sum", per100kToCount: true },
+                { id: "N07548", title: "Anmälda trafikbrott", group: "Anmälda brott", format: "number", aggregate: "sum", per100kToCount: true }
+            ]
+        },
+        migration: {
+            title: "Migration",
+            note: "Migration och etablering hämtas live från Kolada. Kommunmottagande och utrikes flyttningar jämförs med länet och riket.",
+            metrics: [
+                { id: "N01807", title: "Utrikes inflyttade", group: "Flyttningar", format: "number", aggregate: "sum" },
+                { id: "N01808", title: "Utrikes utflyttade", group: "Flyttningar", format: "number", aggregate: "sum" },
+                { id: "N01806", title: "Utrikes flyttnetto", group: "Flyttningar", format: "number", aggregate: "sum" },
+                { id: "N01986", title: "Kommunmottagna med uppehållstillstånd", group: "Flyktingmottagande", format: "number", aggregate: "sum" },
+                { id: "N02006", title: "Kommunmottagna med uppehållstillstånd", group: "Flyktingmottagande", format: "number", aggregate: "avg", suffix: "/1000 inv" }
+            ]
+        },
+        forsakringskassan: {
+            title: "Försäkringskassan",
+            note: "Direkta Försäkringskassan-snapshots saknas ännu för Kronoberg. Här visas närliggande Kolada-mått för ohälsa, arbetsmarknad och försörjning tills FK-snapshoten byggs in.",
+            metrics: [
+                { id: "N00957", title: "Ohälsotal", group: "Ohälsa", format: "number", aggregate: "avg", suffix: " dagar" },
+                { id: "N02280", title: "Arbetslöshet 20-64 år", group: "Arbete", format: "percent", aggregate: "avg" },
+                { id: "N66080", title: "Låg ekonomisk standard", group: "Livsvillkor", format: "percent", aggregate: "avg" }
+            ]
+        }
+    };
+
+    function setupKronobergLiveTabs() {
+        Object.entries(kronobergLiveTabConfigs).forEach(([tabId, config]) => {
+            const section = document.getElementById(tabId);
+            if (!section || section.dataset.kronobergLiveReady === "1") return;
+            section.dataset.kronobergLiveReady = "1";
+            section.innerHTML = `
+                <div class="info">${config.note}</div>
+                <article class="comparison-card job-wide">
+                    <div class="comparison-header">
+                        <div>
+                            <h3>${config.title}</h3>
+                            <div class="year" id="${tabId}-live-year">Välj nyckeltal</div>
+                        </div>
+                        <div class="comparison-controls">
+                            <label for="${tabId}-live-select">Nyckeltal:</label>
+                            <select id="${tabId}-live-select">
+                                ${config.metrics.map(metric => `<option value="${metric.id}">${metric.group}: ${metric.title}</option>`).join("")}
+                            </select>
+                        </div>
+                    </div>
+                    <canvas class="comparison-chart" id="${tabId}-live-chart" width="900" height="280"></canvas>
+                    <div class="legend" id="${tabId}-live-legend"></div>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Område</th>
+                                <th>Senaste värde</th>
+                                <th>Mätår</th>
+                                <th>Förändring från föregående mätår</th>
+                            </tr>
+                        </thead>
+                        <tbody id="${tabId}-live-table-body">
+                            <tr><td colspan="4">Laddar...</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="insight-note" id="${tabId}-live-note">Källa: Kolada API v3.</div>
+                </article>`;
+            document.getElementById(`${tabId}-live-select`).addEventListener("change", () => renderKronobergLiveTab(tabId));
+        });
+    }
+
+    async function renderActiveKronobergExtraTab() {
+        const tabId = document.querySelector(".tab-btn.active")?.dataset.tab;
+        if (kronobergLiveTabConfigs[tabId]) {
+            await renderKronobergLiveTab(tabId);
+            return;
+        }
+        if (tabId === "jobb") {
+            await renderJobsDashboard();
+            return;
+        }
+        if (tabId === "boenden") {
+            renderBmeHousingDashboard();
+        }
+    }
+
+    async function renderKronobergLiveTab(tabId) {
+        const config = kronobergLiveTabConfigs[tabId];
+        if (!config) return;
+        const select = document.getElementById(`${tabId}-live-select`);
+        const tableBody = document.getElementById(`${tabId}-live-table-body`);
+        const note = document.getElementById(`${tabId}-live-note`);
+        const yearEl = document.getElementById(`${tabId}-live-year`);
+        if (!select || !tableBody) return;
+        const metric = config.metrics.find(item => item.id === select.value) || config.metrics[0];
+        if (select.value !== metric.id) select.value = metric.id;
+
+        tableBody.innerHTML = `<tr><td colspan="4">Laddar...</td></tr>`;
+        if (yearEl) yearEl.textContent = "Laddar...";
+        try {
+            const bundle = await loadKronobergLiveBundle(metric);
+            const rows = kronobergLiveRows(bundle, metric);
+            const period = rows.find(row => row.latest)?.latest?.period || "";
+            if (yearEl) yearEl.textContent = period ? `Mätår: ${period}` : "Senaste tillgängliga mätår";
+            tableBody.innerHTML = rows.map(row => `
+                <tr class="${row.id === selectedMunicipalityId ? "is-highlighted" : row.total ? "summary-row" : ""}">
+                    <td>${escapeHtml(row.title)}</td>
+                    <td>${formatKronobergLiveValue(row.latest?.value, metric)}</td>
+                    <td>${row.latest?.period || "-"}</td>
+                    <td>${kronobergLiveDelta(row, metric)}</td>
+                </tr>
+            `).join("");
+            const chartRows = rows
+                .filter(row => row.id === selectedMunicipalityId || row.id === "kronoberg-municipalities" || row.id === "county" || row.id === KRONOBERG_COUNTRY_ID)
+                .map(row => ({ title: row.title, color: row.color, values: row.series }));
+            drawLineChart(document.getElementById(`${tabId}-live-chart`), chartRows, metric.format, true, selectedMunicipalityId);
+            document.getElementById(`${tabId}-live-legend`).innerHTML = chartRows.map(row => `
+                <span class="legend-item"><span class="legend-color" style="background:${row.color}"></span>${escapeHtml(row.title)}</span>
+            `).join("");
+            if (note) {
+                const source = metric.per100kToCount
+                    ? "Källa: Kolada API v3. Brottsmåttet har räknats om från per 100 000 invånare med befolkning KPI N01951."
+                    : "Källa: Kolada API v3.";
+                note.textContent = `${source} ${config.note}`;
+            }
+        } catch (error) {
+            console.error(error);
+            tableBody.innerHTML = `<tr><td colspan="4">Kunde inte hämta Kolada-data för valt nyckeltal.</td></tr>`;
+            clearCanvas(document.getElementById(`${tabId}-live-chart`));
+            document.getElementById(`${tabId}-live-legend`).innerHTML = "";
+            if (yearEl) yearEl.textContent = "Data saknas";
+            if (note) note.textContent = "Kontrollera internetanslutning eller Kolada-svar.";
+        }
+    }
+
+    async function loadKronobergLiveBundle(metric) {
+        const selected = currentMunicipality();
+        const municipalityIds = comparisonMunicipalities.map(item => item.id);
+        const ids = [...new Set([selected.id, ...municipalityIds, KRONOBERG_COUNTY_ID, KRONOBERG_COUNTRY_ID])];
+        const entries = await Promise.all(ids.map(async id => [id, await loadKronobergLiveRegion(id, metric)]));
+        const byId = Object.fromEntries(entries);
+        const municipalAggregate = aggregateKronobergLiveSeries("kronoberg-municipalities", municipalityIds, metric, byId);
+        const county = byId[KRONOBERG_COUNTY_ID]?.latest ? byId[KRONOBERG_COUNTY_ID] : municipalAggregate;
+        return { selected, municipalityIds, byId, municipalAggregate, county };
+    }
+
+    async function loadKronobergLiveRegion(regionId, metric) {
+        const cacheKey = `${regionId}:${metric.id}:${metric.per100kToCount ? "count" : "raw"}`;
+        if (kronobergLiveMetricCache.has(cacheKey)) return kronobergLiveMetricCache.get(cacheKey);
+        const promise = (async () => {
+            const data = await fetchJson(`${API_BASE}/data/municipality/${regionId}/kpi/${metric.id}`);
+            let series = valuesByYear(data.values || [], metric.gender || "T");
+            if (metric.per100kToCount) {
+                const population = await loadKronobergLiveRegion(regionId, { id: "N01951", format: "number" });
+                series = series
+                    .map(point => {
+                        const populationPoint = population.series.find(item => item.period === point.period);
+                        if (!Number.isFinite(populationPoint?.value)) return null;
+                        return { period: point.period, value: Math.round((point.value * populationPoint.value) / 100000), status: point.status || "" };
+                    })
+                    .filter(Boolean);
+            }
+            return { id: regionId, series, latest: series.at(-1) || null, previous: series.at(-2) || null };
+        })();
+        kronobergLiveMetricCache.set(cacheKey, promise);
+        return promise;
+    }
+
+    function aggregateKronobergLiveSeries(id, regionIds, metric, byId) {
+        const periods = [...new Set(regionIds.flatMap(regionId => byId[regionId]?.series.map(point => point.period) || []))].sort((a, b) => a - b);
+        const series = periods.map(period => {
+            const values = regionIds
+                .map(regionId => byId[regionId]?.series.find(point => point.period === period)?.value)
+                .filter(Number.isFinite);
+            if (!values.length) return null;
+            const value = metric.aggregate === "sum"
+                ? values.reduce((sum, value) => sum + value, 0)
+                : values.reduce((sum, value) => sum + value, 0) / values.length;
+            return { period, value };
+        }).filter(Boolean);
+        return { id, series, latest: series.at(-1) || null, previous: series.at(-2) || null };
+    }
+
+    function kronobergLiveRows(bundle, metric) {
+        const selected = bundle.selected;
+        const otherMunicipalities = comparisonMunicipalities.filter(item => item.id !== selected.id);
+        const rowFor = (title, id, data, color, total = false) => ({
+            title,
+            id,
+            color,
+            total,
+            series: data?.series || [],
+            latest: data?.latest || null,
+            previous: data?.previous || null
+        });
+        return [
+            rowFor(selected.title, selected.id, bundle.byId[selected.id], selected.color || "#005a9c"),
+            ...otherMunicipalities.map(item => rowFor(item.title, item.id, bundle.byId[item.id], item.color)),
+            rowFor("Kronobergs kommuner", "kronoberg-municipalities", bundle.municipalAggregate, "#222222", true),
+            rowFor("Kronobergs län", "county", bundle.county, "#c04f15", true),
+            rowFor("Riket", KRONOBERG_COUNTRY_ID, bundle.byId[KRONOBERG_COUNTRY_ID], "#737b88", true)
+        ];
+    }
+
+    function formatKronobergLiveValue(value, metric) {
+        return Number.isFinite(value) ? `${formatValue(value, metric.format)}${metric.suffix || ""}` : "-";
+    }
+
+    function kronobergLiveDelta(row, metric) {
+        if (!Number.isFinite(row.latest?.value) || !Number.isFinite(row.previous?.value)) return "-";
+        const delta = row.latest.value - row.previous.value;
+        const abs = Math.abs(delta);
+        const sign = delta > 0 ? "+" : delta < 0 ? "−" : "";
+        if (metric.format === "percent") {
+            return `${sign}${abs.toLocaleString("sv-SE", { maximumFractionDigits: 1 })} procentenheter från ${row.previous.period}`;
+        }
+        return `${sign}${formatValue(abs, metric.format)}${metric.suffix || ""} från ${row.previous.period}`;
+    }
+
     const kronobergPendingSnapshotTabs = {
         socialstyrelsen: {
             title: "SoS Äldreomsorg",
             source: "Socialstyrelsens äldreomsorgsstatistik"
-        },
-        folkhalsa: {
-            title: "Folkhälsa",
-            source: "Folkhälsomyndighetens FolkhälsoStudio"
-        },
-        jobb: {
-            title: "Lediga jobb",
-            source: "Arbetsförmedlingens Platsbanken och Historical Ads API"
-        },
-        arbetsloshet: {
-            title: "Arbetslöshet",
-            source: "Arbetsförmedlingens statistikverktyg"
-        },
-        brott: {
-            title: "Brott",
-            source: "Brås statistikdatabas"
-        },
-        migration: {
-            title: "Migration",
-            source: "Migrationsverkets öppna data"
-        },
-        forsakringskassan: {
-            title: "Försäkringskassan",
-            source: "Försäkringskassans statistikdatabas"
-        },
-        boenden: {
-            title: "Boende ÄO/LSS",
-            source: "Boverkets bostadsmarknadsenkät och Socialstyrelsens LSS-statistik"
         }
     };
 
