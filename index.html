@@ -756,6 +756,103 @@
         font-size: 0.88rem;
     }
 
+    .simulator-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 14px;
+        align-items: stretch;
+        background: var(--primary-light);
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+    }
+
+    .simulator-field {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 6px;
+        font-weight: 700;
+        color: var(--primary-dark);
+        line-height: 1.22;
+    }
+
+    .simulator-field input,
+    .simulator-field select {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        background: #fff;
+        padding: 8px 10px;
+        font: inherit;
+    }
+
+    .simulator-results {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin: 18px 0;
+    }
+
+    .simulator-metric {
+        border: 1px solid var(--border);
+        border-left: 5px solid var(--primary);
+        border-radius: 8px;
+        padding: 14px;
+        background: #fff;
+    }
+
+    .simulator-metric-title {
+        color: var(--muted);
+        font-weight: 800;
+        font-size: 0.86rem;
+        margin-bottom: 8px;
+    }
+
+    .simulator-metric-value {
+        color: var(--primary);
+        font-size: 1.55rem;
+        font-weight: 900;
+        line-height: 1.15;
+    }
+
+    .simulator-metric-value.is-cost {
+        color: #c04f15;
+    }
+
+    .simulator-metric-value.is-saving {
+        color: #2a7f62;
+    }
+
+    .simulator-metric-note {
+        color: var(--muted);
+        font-size: 0.88rem;
+        margin-top: 8px;
+    }
+
+    .welfare-tech-card {
+        margin-top: 22px;
+        border-top-color: #2a7f62;
+    }
+
+    .welfare-tech-assumptions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: -4px 0 14px;
+    }
+
+    .welfare-tech-pill {
+        background: #eef7f3;
+        color: #235f4d;
+        border: 1px solid #cfe4dc;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
     @media (max-width: 640px) {
         body {
             padding: 14px;
@@ -856,6 +953,7 @@
         <button class="tab-btn" type="button" data-tab="migration">Migration</button>
         <button class="tab-btn" type="button" data-tab="forsakringskassan">Försäkringskassan</button>
         <button class="tab-btn" type="button" data-tab="boenden">Boende ÄO/LSS</button>
+        <button class="tab-btn" type="button" data-tab="simulator">Välfärdsteknik simulator</button>
     </nav>
 
     <main>
@@ -1738,6 +1836,211 @@
                 </article>
             </div>
         </section>
+        <section id="simulator" class="tab-content" aria-labelledby="Simulator">
+            <div class="info">Beräknar bara på områden där dashboarden har både volym och kostnad.</div>
+            <article class="comparison-card job-wide">
+                <h3>Scenario och kostnadseffekt</h3>
+                <div class="simulator-controls">
+                    <label class="simulator-field" for="simulator-scenario">
+                        Område
+                        <select id="simulator-scenario"></select>
+                    </label>
+                    <label class="simulator-field" for="simulator-volume-mode">
+                        Volymändring
+                        <select id="simulator-volume-mode">
+                            <option value="percent">Procent</option>
+                            <option value="fixed">Fast antal</option>
+                        </select>
+                    </label>
+                    <label class="simulator-field" for="simulator-volume-change">
+                        Ändring
+                        <input id="simulator-volume-change" type="number" value="5" step="0.1" inputmode="decimal">
+                    </label>
+                    <label class="simulator-field" for="simulator-growth">
+                        Årlig volymökning
+                        <input id="simulator-growth" type="number" value="5" step="0.1" inputmode="decimal">
+                    </label>
+                </div>
+                <div class="simulator-results" id="simulator-results">
+                    <div class="status">Välj fliken för att ladda beräkningen.</div>
+                </div>
+                <canvas class="comparison-chart" id="simulator-chart" width="900" height="280"></canvas>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>År</th>
+                            <th id="simulator-value-header">Beräknad årskostnad</th>
+                            <th id="simulator-delta-header">Ökning mot nuläge</th>
+                            <th>Kommentar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="simulator-table-body">
+                        <tr><td colspan="4">Laddar...</td></tr>
+                    </tbody>
+                </table>
+                <div class="insight-note" id="simulator-note"></div>
+            </article>
+            <article class="comparison-card job-wide welfare-tech-card">
+                <h3>Välfärdsteknik: traditionell tillsyn mot digital tillsyn</h3>
+                <div class="simulator-controls">
+                    <label class="simulator-field" for="welfare-camera-count">
+                        Antal kameror
+                        <input id="welfare-camera-count" type="number" value="1" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="welfare-visits">
+                        Tillsyner per kamera/månad
+                        <input id="welfare-visits" type="number" value="30" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="welfare-km">
+                        Km tur/retur
+                        <input id="welfare-km" type="number" value="8" min="0" step="0.5" inputmode="decimal">
+                    </label>
+                    <label class="simulator-field" for="welfare-salary">
+                        Månadslön
+                        <input id="welfare-salary" type="number" value="27500" min="0" step="500" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="welfare-camera-cost">
+                        Kamerakostnad/månad
+                        <input id="welfare-camera-cost" type="number" value="500" min="0" step="50" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="welfare-wage-growth">
+                        Årlig löneökning
+                        <input id="welfare-wage-growth" type="number" value="3" step="0.1" inputmode="decimal">
+                    </label>
+                </div>
+                <div class="welfare-tech-assumptions">
+                    <span class="welfare-tech-pill">3 min per km</span>
+                    <span class="welfare-tech-pill">8 min fast per tillsyn</span>
+                    <span class="welfare-tech-pill">1 min digital tillsyn</span>
+                    <span class="welfare-tech-pill">Lön x 1,4</span>
+                </div>
+                <div class="simulator-results" id="welfare-tech-results">
+                    <div class="status">Välj fliken för att ladda beräkningen.</div>
+                </div>
+                <div class="legend" id="welfare-tech-legend"></div>
+                <canvas class="comparison-chart" id="welfare-tech-chart" width="900" height="280"></canvas>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>År</th>
+                            <th>Traditionell tillsyn</th>
+                            <th>Digital tillsyn</th>
+                            <th>Besparing</th>
+                            <th>Ack. besparing</th>
+                        </tr>
+                    </thead>
+                    <tbody id="welfare-tech-table-body">
+                        <tr><td colspan="5">Laddar...</td></tr>
+                    </tbody>
+                </table>
+                <div class="insight-note" id="welfare-tech-note"></div>
+            </article>
+            <article class="comparison-card job-wide welfare-tech-card">
+                <h3>Välfärdsteknik: Läkemedelsrobot</h3>
+                <div class="simulator-controls">
+                    <label class="simulator-field" for="medicine-robot-count">
+                        Antal läkemedelsrobot
+                        <input id="medicine-robot-count" type="number" value="1" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="medicine-handover-count">
+                        Antal överlämningar
+                        <input id="medicine-handover-count" type="number" value="60" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="medicine-km">
+                        Km tur/retur
+                        <input id="medicine-km" type="number" value="8" min="0" step="0.5" inputmode="decimal">
+                    </label>
+                    <label class="simulator-field" for="medicine-salary">
+                        Månadslön
+                        <input id="medicine-salary" type="number" value="27500" min="0" step="500" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="medicine-robot-cost">
+                        Kostnad automat/månad
+                        <input id="medicine-robot-cost" type="number" value="1500" min="0" step="100" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="medicine-wage-growth">
+                        Årlig löneökning
+                        <input id="medicine-wage-growth" type="number" value="3" step="0.1" inputmode="decimal">
+                    </label>
+                </div>
+                <div class="welfare-tech-assumptions">
+                    <span class="welfare-tech-pill">3 min per km</span>
+                    <span class="welfare-tech-pill">15 min besök</span>
+                    <span class="welfare-tech-pill">Lön x 1,4</span>
+                </div>
+                <div class="simulator-results" id="medicine-robot-results">
+                    <div class="status">Välj fliken för att ladda beräkningen.</div>
+                </div>
+                <div class="legend" id="medicine-robot-legend"></div>
+                <canvas class="comparison-chart" id="medicine-robot-chart" width="900" height="280"></canvas>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>År</th>
+                            <th>Traditionell överlämning</th>
+                            <th>Läkemedelsrobot</th>
+                            <th>Besparing</th>
+                            <th>Ack. besparing</th>
+                        </tr>
+                    </thead>
+                    <tbody id="medicine-robot-table-body">
+                        <tr><td colspan="5">Laddar...</td></tr>
+                    </tbody>
+                </table>
+                <div class="insight-note" id="medicine-robot-note"></div>
+            </article>
+            <article class="comparison-card job-wide welfare-tech-card">
+                <h3>Välfärdsteknik: Digitala hembesök</h3>
+                <div class="simulator-controls">
+                    <label class="simulator-field" for="digital-visit-count">
+                        Hembesök som ersätts/månad
+                        <input id="digital-visit-count" type="number" value="30" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="digital-visit-km">
+                        Km tur/retur
+                        <input id="digital-visit-km" type="number" value="8" min="0" step="0.5" inputmode="decimal">
+                    </label>
+                    <label class="simulator-field" for="digital-visit-salary">
+                        Månadslön
+                        <input id="digital-visit-salary" type="number" value="27500" min="0" step="500" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="digital-visit-cost">
+                        Digital kostnad/månad
+                        <input id="digital-visit-cost" type="number" value="0" min="0" step="100" inputmode="numeric">
+                    </label>
+                    <label class="simulator-field" for="digital-visit-wage-growth">
+                        Årlig löneökning
+                        <input id="digital-visit-wage-growth" type="number" value="3" step="0.1" inputmode="decimal">
+                    </label>
+                </div>
+                <div class="welfare-tech-assumptions">
+                    <span class="welfare-tech-pill">3 min per km</span>
+                    <span class="welfare-tech-pill">Insatstid kvittas</span>
+                    <span class="welfare-tech-pill">Lön x 1,4</span>
+                </div>
+                <div class="simulator-results" id="digital-visit-results">
+                    <div class="status">Välj fliken för att ladda beräkningen.</div>
+                </div>
+                <div class="legend" id="digital-visit-legend"></div>
+                <canvas class="comparison-chart" id="digital-visit-chart" width="900" height="280"></canvas>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>År</th>
+                            <th>Traditionella resor</th>
+                            <th>Digital kostnad</th>
+                            <th>Besparing</th>
+                            <th>Ack. besparing</th>
+                        </tr>
+                    </thead>
+                    <tbody id="digital-visit-table-body">
+                        <tr><td colspan="5">Laddar...</td></tr>
+                    </tbody>
+                </table>
+                <div class="insight-note" id="digital-visit-note"></div>
+            </article>
+        </section>
+
     </main>
 
     <p class="source">Källa: Kolada API v3, Socialstyrelsens statistikdatabaser, Folkhälsomyndighetens FolkhälsoStudio samt Arbetsförmedlingens Platsbanken och Historical Ads API samt Brås statistikdatabas och Försäkringskassans statistikdatabas. Befolkningsuppgifterna kommer från SCB via Kolada. Kolada- och jobbdatan hämtas vid sidladdning; Socialstyrelsens värden i flikarna är hämtade från statistikdatabaserna.</p>
@@ -2935,6 +3238,62 @@
     let comparisonKpis = Object.values(dashboards).flat();
     const genderLabels = { T: "totalt", M: "män", K: "kvinnor" };
     const dataCache = new Map();
+    const simulatorScenarios = [
+        {
+            id: "homecare",
+            title: "Hemtjänst",
+            description: "Hemtjänsttagare 65+ i ordinärt boende multiplicerat med kostnad per hemtjänsttagare.",
+            kind: "koladaPair",
+            volumeKpi: "N21702",
+            unitCostKpi: "N21006",
+            volumeLabel: "hemtjänsttagare",
+            unitCostLabel: "kr per hemtjänsttagare",
+            source: "Kolada"
+        },
+        {
+            id: "special-housing",
+            title: "Särskilt boende",
+            description: "Personer i permanent särskilt boende multiplicerat med kostnad särskilt boende per brukare.",
+            kind: "socialstyrelsenElderWithKoladaCost",
+            indicatorId: "4",
+            unitCostKpi: "N23009",
+            volumeLabel: "brukare",
+            unitCostLabel: "kr per brukare",
+            source: "Socialstyrelsen och Kolada"
+        },
+        {
+            id: "lss-daily",
+            title: "LSS daglig verksamhet",
+            description: "Personer med daglig verksamhet enligt LSS multiplicerat med kostnad per brukare.",
+            kind: "koladaPair",
+            volumeKpi: "N28804",
+            unitCostKpi: "N28015",
+            volumeLabel: "brukare",
+            unitCostLabel: "kr per brukare",
+            source: "Kolada"
+        },
+        {
+            id: "economic-assistance",
+            title: "Ekonomiskt bistånd",
+            description: "Utbetalt ekonomiskt bistånd dividerat med antal biståndsmottagare, därefter simulerad volym och styckkostnad.",
+            kind: "sosEconomicAssistance",
+            volumeLabel: "biståndsmottagare",
+            unitCostLabel: "kr per mottagare",
+            source: "Socialstyrelsen"
+        }
+    ];
+    const welfareTechAssumptions = {
+        baseYear: 2026,
+        minutesPerKm: 3,
+        physicalVisitMinutes: 8,
+        medicationVisitMinutes: 15,
+        digitalVisitMinutes: 1,
+        payrollMultiplier: 1.4,
+        monthlyWorkHours: 160
+    };
+    let simulatorControlListenersReady = false;
+    let simulatorRenderToken = 0;
+
 
     const populationDriverKpis = [
         { id: "N01800", title: "Flyttnetto" },
@@ -3020,6 +3379,12 @@
         if (document.getElementById("folkhalsa")?.classList.contains("active")) {
             renderFohmDashboard();
         }
+        if (document.getElementById("simulator")?.classList.contains("active")) {
+            renderSimulator();
+            renderWelfareTechSimulator();
+            renderMedicineRobotSimulator();
+            renderDigitalVisitSimulator();
+        }
     });
 
     document.getElementById("comparison-select").addEventListener("change", () => renderComparison("main-comparison"));
@@ -3032,6 +3397,7 @@
         setupSocialstyrelsenTab();
         setupSocialstyrelsenMoreTabs();
         setupFohmControls();
+        setupSimulatorControls();
         renderEmbeddedComparisonPanels();
         registerComparisonPanel("main-comparison", {
             selectId: "comparison-select",
@@ -3065,6 +3431,12 @@
         renderMigrationDashboard();
         renderFkDashboard();
         renderBmeHousingDashboard();
+        if (document.getElementById("simulator")?.classList.contains("active")) {
+            await renderSimulator();
+            renderWelfareTechSimulator();
+            renderMedicineRobotSimulator();
+            renderDigitalVisitSimulator();
+        }
         await Promise.all([...comparisonPanels.keys()].map(renderComparison));
     }
 
@@ -3111,6 +3483,448 @@
         if (tabId === "folkhalsa") {
             requestAnimationFrame(renderFohmDashboard);
         }
+        if (tabId === "simulator") {
+            requestAnimationFrame(renderSimulator);
+            requestAnimationFrame(renderWelfareTechSimulator);
+            requestAnimationFrame(renderMedicineRobotSimulator);
+            requestAnimationFrame(renderDigitalVisitSimulator);
+        }
+    }
+
+    function setupSimulatorControls() {
+        const select = document.getElementById("simulator-scenario");
+        if (!select) return;
+
+        select.innerHTML = simulatorScenarios
+            .map(scenario => `<option value="${scenario.id}">${scenario.title}</option>`)
+            .join("");
+
+        if (simulatorControlListenersReady) return;
+        simulatorControlListenersReady = true;
+        ["simulator-scenario", "simulator-volume-mode", "simulator-volume-change", "simulator-growth"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", renderSimulator);
+            document.getElementById(id)?.addEventListener("change", renderSimulator);
+        });
+        ["welfare-camera-count", "welfare-visits", "welfare-km", "welfare-salary", "welfare-camera-cost", "welfare-wage-growth"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", renderWelfareTechSimulator);
+            document.getElementById(id)?.addEventListener("change", renderWelfareTechSimulator);
+        });
+        ["medicine-robot-count", "medicine-handover-count", "medicine-km", "medicine-salary", "medicine-robot-cost", "medicine-wage-growth"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", renderMedicineRobotSimulator);
+            document.getElementById(id)?.addEventListener("change", renderMedicineRobotSimulator);
+        });
+        ["digital-visit-count", "digital-visit-km", "digital-visit-salary", "digital-visit-cost", "digital-visit-wage-growth"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", renderDigitalVisitSimulator);
+            document.getElementById(id)?.addEventListener("change", renderDigitalVisitSimulator);
+        });
+    }
+
+    async function renderSimulator() {
+        const resultsEl = document.getElementById("simulator-results");
+        const tableBody = document.getElementById("simulator-table-body");
+        const noteEl = document.getElementById("simulator-note");
+        const chart = document.getElementById("simulator-chart");
+        if (!resultsEl || !tableBody || !noteEl || !chart) return;
+
+        const token = ++simulatorRenderToken;
+        const scenarioId = document.getElementById("simulator-scenario")?.value || simulatorScenarios[0].id;
+        const scenario = simulatorScenarios.find(item => item.id === scenarioId) || simulatorScenarios[0];
+
+        resultsEl.innerHTML = `<div class="status">Laddar beräkning för ${escapeHtml(scenario.title)}...</div>`;
+        tableBody.innerHTML = `<tr><td colspan="4">Laddar...</td></tr>`;
+        noteEl.textContent = "";
+        clearCanvas(chart);
+
+        try {
+            const basis = await simulatorBasis(scenario);
+            if (token !== simulatorRenderToken) return;
+            if (!basis || !Number.isFinite(basis.volume) || !Number.isFinite(basis.unitCost) || basis.volume <= 0) {
+                throw new Error("Saknar komplett volym och styckkostnad.");
+            }
+
+            const volumeMode = document.getElementById("simulator-volume-mode")?.value || "percent";
+            const changeInput = parseSimulatorNumber(document.getElementById("simulator-volume-change")?.value, 0);
+            const annualGrowth = parseSimulatorNumber(document.getElementById("simulator-growth")?.value, 5);
+            const baselineCost = basis.volume * basis.unitCost;
+            const yearOneVolume = simulatorChangedVolume(basis.volume, volumeMode, changeInput);
+            const projections = simulatorProjection(basis, yearOneVolume, annualGrowth);
+            const yearOne = projections[1];
+            const yearFive = projections[5];
+            const changeLabel = volumeMode === "percent"
+                ? `${formatPercent(changeInput)}`
+                : `${formatSignedNumber(changeInput)} ${scenario.volumeLabel}`;
+
+            document.getElementById("simulator-value-header").textContent = "Beräknad årskostnad";
+            document.getElementById("simulator-delta-header").textContent = "Ökning mot nuläge";
+
+            resultsEl.innerHTML = [
+                simulatorMetric("Volym nuläge", `${formatValue(basis.volume, "number")} ${scenario.volumeLabel}`, `Mätår ${basis.volumePeriod || "-"}`),
+                simulatorMetric("Styckkostnad", formatValue(basis.unitCost, "currency"), scenario.unitCostLabel),
+                simulatorMetric("Kostnad nuläge", formatValue(baselineCost, "currency"), "Volym x styckkostnad"),
+                simulatorMetric("År 1, ny kostnad", formatValue(yearOne.cost, "currency"), `${formatValue(yearOne.volume, "number")} ${scenario.volumeLabel}`),
+                simulatorMetric("Ökning år 1", formatSignedCurrency(yearOne.delta), `Volymändring: ${changeLabel}`, yearOne.delta),
+                simulatorMetric("Ökning år 5", formatSignedCurrency(yearFive.delta), `${formatPercent(annualGrowth)} årlig volymökning efter år 1`, yearFive.delta)
+            ].join("");
+
+            drawLineChart(chart, [
+                { id: "cost", title: "Årskostnad", color: "#c04f15", values: projections.map(item => ({ period: item.year, value: item.cost })) },
+                { id: "baseline", title: "Nuläge", color: "#6b7280", dash: [4, 4], values: projections.map(item => ({ period: item.year, value: baselineCost })) }
+            ], "currency", true);
+
+            tableBody.innerHTML = projections.map((item, index) => `
+                <tr class="${index === 0 ? "is-highlighted" : ""}">
+                    <td>${index === 0 ? "Nuläge" : `År ${index}`}</td>
+                    <td>${formatValue(item.cost, "currency")}</td>
+                    <td>${index === 0 ? "-" : formatSignedCurrency(item.delta)}</td>
+                    <td>${formatValue(item.volume, "number")} ${scenario.volumeLabel}</td>
+                </tr>
+            `).join("");
+
+            noteEl.textContent = `${scenario.description} Källa: ${scenario.source}. Volymändringen avser antal personer/brukare/mottagare. Mätår volym: ${basis.volumePeriod || "-"}, mätår kostnad: ${basis.unitCostPeriod || "-"}.`;
+        } catch (error) {
+            if (token !== simulatorRenderToken) return;
+            resultsEl.innerHTML = `<div class="status">Det saknas komplett beräkningsunderlag för valt område.</div>`;
+            tableBody.innerHTML = `<tr><td colspan="4">Välj ett annat område eller kontrollera om nyckeltalet har värde för vald kommun.</td></tr>`;
+            noteEl.textContent = error.message || "";
+            clearCanvas(chart);
+        }
+    }
+
+    function renderWelfareTechSimulator() {
+        const resultsEl = document.getElementById("welfare-tech-results");
+        const tableBody = document.getElementById("welfare-tech-table-body");
+        const noteEl = document.getElementById("welfare-tech-note");
+        const chart = document.getElementById("welfare-tech-chart");
+        const legend = document.getElementById("welfare-tech-legend");
+        if (!resultsEl || !tableBody || !noteEl || !chart || !legend) return;
+
+        const inputValue = (id, fallback) => Math.max(0, parseSimulatorNumber(document.getElementById(id)?.value, fallback));
+        const cameraCount = inputValue("welfare-camera-count", 1);
+        const visitsPerCamera = inputValue("welfare-visits", 30);
+        const kmRoundTrip = inputValue("welfare-km", 8);
+        const monthlySalary = inputValue("welfare-salary", 27500);
+        const cameraMonthlyCost = inputValue("welfare-camera-cost", 500);
+        const annualWageGrowth = parseSimulatorNumber(document.getElementById("welfare-wage-growth")?.value, 3);
+
+        const assumptions = welfareTechAssumptions;
+        const monthlyStaffCost = monthlySalary * assumptions.payrollMultiplier;
+        const hourlyCost = monthlyStaffCost / assumptions.monthlyWorkHours;
+        const totalMonthlyVisits = cameraCount * visitsPerCamera;
+        const physicalMinutesPerVisit = (kmRoundTrip * assumptions.minutesPerKm) + assumptions.physicalVisitMinutes;
+        const digitalMinutesPerVisit = assumptions.digitalVisitMinutes;
+        const physicalHoursMonthly = (totalMonthlyVisits * physicalMinutesPerVisit) / 60;
+        const digitalHoursMonthly = (totalMonthlyVisits * digitalMinutesPerVisit) / 60;
+        const traditionalMonthlyCost = physicalHoursMonthly * hourlyCost;
+        const digitalStaffMonthlyCost = digitalHoursMonthly * hourlyCost;
+        const digitalCameraMonthlyCost = cameraCount * cameraMonthlyCost;
+        const digitalMonthlyCost = digitalStaffMonthlyCost + digitalCameraMonthlyCost;
+        const monthlySaving = traditionalMonthlyCost - digitalMonthlyCost;
+        const savedHoursMonthly = physicalHoursMonthly - digitalHoursMonthly;
+        const perVisitStaffSaving = ((physicalMinutesPerVisit - digitalMinutesPerVisit) / 60) * hourlyCost;
+        const breakEvenVisits = perVisitStaffSaving > 0 ? cameraMonthlyCost / perVisitStaffSaving : null;
+        const projections = welfareTechProjection({
+            physicalHoursMonthly,
+            digitalHoursMonthly,
+            hourlyCost,
+            digitalCameraMonthlyCost,
+            annualWageGrowth
+        });
+        const yearOne = projections[0];
+        const yearFive = projections[4];
+        const savingTone = monthlySaving >= 0 ? "is-saving" : "is-cost";
+
+        resultsEl.innerHTML = [
+            simulatorMetric("Tillsyner per månad", `${formatValue(totalMonthlyVisits, "number")} st`, `${formatValue(cameraCount, "number")} kameror x ${formatValue(visitsPerCamera, "number")} tillsyner`),
+            simulatorMetric("Traditionell tillsyn", formatValue(traditionalMonthlyCost, "currency"), `${formatValue(physicalHoursMonthly, "number")} timmar per månad`, null, "is-cost"),
+            simulatorMetric("Digital tillsyn", formatValue(digitalMonthlyCost, "currency"), `${formatValue(digitalHoursMonthly, "number")} timmar + kamerakostnad`, null, "is-saving"),
+            simulatorMetric("Besparing per månad", formatSignedCurrency(monthlySaving), "Traditionell minus digital", null, savingTone),
+            simulatorMetric("Besparing per år", formatSignedCurrency(yearOne.saving), `År ${yearOne.year}`, null, yearOne.saving >= 0 ? "is-saving" : "is-cost"),
+            simulatorMetric("Sparad tid", `${formatValue(savedHoursMonthly, "number")} tim/mån`, `${formatValue(physicalMinutesPerVisit, "number")} min fysisk, ${formatValue(digitalMinutesPerVisit, "number")} min digital`),
+            simulatorMetric("Sparad tid per år", `${formatValue(savedHoursMonthly * 12, "number")} tim/år`, `${formatValue(savedHoursMonthly, "number")} timmar per månad`),
+            simulatorMetric("Brytpunkt", breakEvenVisits === null ? "-" : formatValue(breakEvenVisits, "number"), "tillsyner/kamera och månad för att täcka kamerakostnad"),
+            simulatorMetric("Ack. 5 år", formatSignedCurrency(yearFive.cumulativeSaving), `${formatPercent(annualWageGrowth)} årlig löneökning`, null, yearFive.cumulativeSaving >= 0 ? "is-saving" : "is-cost")
+        ].join("");
+
+        legend.innerHTML = `
+            <span class="legend-item"><span class="legend-color" style="background:#c04f15"></span>Traditionell tillsyn</span>
+            <span class="legend-item"><span class="legend-color" style="background:#2a7f62"></span>Digital tillsyn</span>
+        `;
+
+        drawLineChart(chart, [
+            { id: "traditional", title: "Traditionell tillsyn", color: "#c04f15", values: projections.map(item => ({ period: item.year, value: item.traditionalAnnualCost })) },
+            { id: "digital", title: "Digital tillsyn", color: "#2a7f62", values: projections.map(item => ({ period: item.year, value: item.digitalAnnualCost })) }
+        ], "currency", true);
+
+        tableBody.innerHTML = projections.map((item, index) => `
+            <tr class="${index === 0 ? "is-highlighted" : ""}">
+                <td>${item.year}</td>
+                <td>${formatValue(item.traditionalAnnualCost, "currency")}</td>
+                <td>${formatValue(item.digitalAnnualCost, "currency")}</td>
+                <td>${formatSignedCurrency(item.saving)}</td>
+                <td>${formatSignedCurrency(item.cumulativeSaving)}</td>
+            </tr>
+        `).join("");
+
+        noteEl.textContent = `Restid räknas som ${assumptions.minutesPerKm} minuter per km tur/retur. Fast tid för traditionell tillsyn är ${assumptions.physicalVisitMinutes} minuter per tillsyn. Avser parkering, tid till och från bostad samt tillsyn. Digital tillsyn tar ${assumptions.digitalVisitMinutes} minut. Personalkostnad räknas som månadslön x ${assumptions.payrollMultiplier.toLocaleString("sv-SE")} / ${assumptions.monthlyWorkHours} timmar.`;
+    }
+
+    function renderMedicineRobotSimulator() {
+        const resultsEl = document.getElementById("medicine-robot-results");
+        const tableBody = document.getElementById("medicine-robot-table-body");
+        const noteEl = document.getElementById("medicine-robot-note");
+        const chart = document.getElementById("medicine-robot-chart");
+        const legend = document.getElementById("medicine-robot-legend");
+        if (!resultsEl || !tableBody || !noteEl || !chart || !legend) return;
+
+        const inputValue = (id, fallback) => Math.max(0, parseSimulatorNumber(document.getElementById(id)?.value, fallback));
+        const robotCount = inputValue("medicine-robot-count", 1);
+        const handoversPerRobot = inputValue("medicine-handover-count", 60);
+        const kmRoundTrip = inputValue("medicine-km", 8);
+        const monthlySalary = inputValue("medicine-salary", 27500);
+        const robotMonthlyCost = inputValue("medicine-robot-cost", 1500);
+        const annualWageGrowth = parseSimulatorNumber(document.getElementById("medicine-wage-growth")?.value, 3);
+
+        const assumptions = welfareTechAssumptions;
+        const monthlyStaffCost = monthlySalary * assumptions.payrollMultiplier;
+        const hourlyCost = monthlyStaffCost / assumptions.monthlyWorkHours;
+        const totalMonthlyHandovers = robotCount * handoversPerRobot;
+        const traditionalMinutesPerHandover = (kmRoundTrip * assumptions.minutesPerKm) + assumptions.medicationVisitMinutes;
+        const traditionalHoursMonthly = (totalMonthlyHandovers * traditionalMinutesPerHandover) / 60;
+        const robotHoursMonthly = 0;
+        const traditionalMonthlyCost = traditionalHoursMonthly * hourlyCost;
+        const robotTotalMonthlyCost = robotCount * robotMonthlyCost;
+        const monthlySaving = traditionalMonthlyCost - robotTotalMonthlyCost;
+        const perHandoverStaffSaving = (traditionalMinutesPerHandover / 60) * hourlyCost;
+        const breakEvenHandovers = perHandoverStaffSaving > 0 ? robotMonthlyCost / perHandoverStaffSaving : null;
+        const projections = welfareTechProjection({
+            physicalHoursMonthly: traditionalHoursMonthly,
+            digitalHoursMonthly: robotHoursMonthly,
+            hourlyCost,
+            digitalCameraMonthlyCost: robotTotalMonthlyCost,
+            annualWageGrowth
+        });
+        const yearOne = projections[0];
+        const yearFive = projections[4];
+        const savingTone = monthlySaving >= 0 ? "is-saving" : "is-cost";
+
+        resultsEl.innerHTML = [
+            simulatorMetric("Överlämningar per månad", `${formatValue(totalMonthlyHandovers, "number")} st`, `${formatValue(robotCount, "number")} robotar x ${formatValue(handoversPerRobot, "number")} överlämningar`),
+            simulatorMetric("Traditionell överlämning", formatValue(traditionalMonthlyCost, "currency"), `${formatValue(traditionalHoursMonthly, "number")} timmar per månad`, null, "is-cost"),
+            simulatorMetric("Läkemedelsrobot", formatValue(robotTotalMonthlyCost, "currency"), `${formatValue(robotCount, "number")} robotar x ${formatValue(robotMonthlyCost, "currency")}`, null, "is-saving"),
+            simulatorMetric("Besparing per månad", formatSignedCurrency(monthlySaving), "Traditionell minus robot", null, savingTone),
+            simulatorMetric("Besparing per år", formatSignedCurrency(yearOne.saving), `År ${yearOne.year}`, null, yearOne.saving >= 0 ? "is-saving" : "is-cost"),
+            simulatorMetric("Sparad tid", `${formatValue(traditionalHoursMonthly, "number")} tim/mån`, `${formatValue(traditionalMinutesPerHandover, "number")} min per traditionell överlämning`),
+            simulatorMetric("Sparad tid per år", `${formatValue(traditionalHoursMonthly * 12, "number")} tim/år`, `${formatValue(traditionalHoursMonthly, "number")} timmar per månad`),
+            simulatorMetric("Brytpunkt", breakEvenHandovers === null ? "-" : formatValue(breakEvenHandovers, "number"), "överlämningar/robot och månad för att täcka automatkostnad"),
+            simulatorMetric("Ack. 5 år", formatSignedCurrency(yearFive.cumulativeSaving), `${formatPercent(annualWageGrowth)} årlig löneökning`, null, yearFive.cumulativeSaving >= 0 ? "is-saving" : "is-cost")
+        ].join("");
+
+        legend.innerHTML = `
+            <span class="legend-item"><span class="legend-color" style="background:#c04f15"></span>Traditionell överlämning</span>
+            <span class="legend-item"><span class="legend-color" style="background:#2a7f62"></span>Läkemedelsrobot</span>
+        `;
+
+        drawLineChart(chart, [
+            { id: "traditional", title: "Traditionell överlämning", color: "#c04f15", values: projections.map(item => ({ period: item.year, value: item.traditionalAnnualCost })) },
+            { id: "robot", title: "Läkemedelsrobot", color: "#2a7f62", values: projections.map(item => ({ period: item.year, value: item.digitalAnnualCost })) }
+        ], "currency", true);
+
+        tableBody.innerHTML = projections.map((item, index) => `
+            <tr class="${index === 0 ? "is-highlighted" : ""}">
+                <td>${item.year}</td>
+                <td>${formatValue(item.traditionalAnnualCost, "currency")}</td>
+                <td>${formatValue(item.digitalAnnualCost, "currency")}</td>
+                <td>${formatSignedCurrency(item.saving)}</td>
+                <td>${formatSignedCurrency(item.cumulativeSaving)}</td>
+            </tr>
+        `).join("");
+
+        noteEl.textContent = `Restid räknas som ${assumptions.minutesPerKm} minuter per km tur/retur. Traditionell läkemedelsöverlämning tar ${assumptions.medicationVisitMinutes} minuter på plats. Personalkostnad räknas som månadslön x ${assumptions.payrollMultiplier.toLocaleString("sv-SE")} / ${assumptions.monthlyWorkHours} timmar. Robotkostnaden räknas som antal robotar x kostnad automat/månad. (Siffrorna tar inte hänsyn till byte av dospåsar.)`;
+    }
+
+    function renderDigitalVisitSimulator() {
+        const resultsEl = document.getElementById("digital-visit-results");
+        const tableBody = document.getElementById("digital-visit-table-body");
+        const noteEl = document.getElementById("digital-visit-note");
+        const chart = document.getElementById("digital-visit-chart");
+        const legend = document.getElementById("digital-visit-legend");
+        if (!resultsEl || !tableBody || !noteEl || !chart || !legend) return;
+
+        const inputValue = (id, fallback) => Math.max(0, parseSimulatorNumber(document.getElementById(id)?.value, fallback));
+        const visitCount = inputValue("digital-visit-count", 30);
+        const kmRoundTrip = inputValue("digital-visit-km", 8);
+        const monthlySalary = inputValue("digital-visit-salary", 27500);
+        const digitalMonthlyCost = inputValue("digital-visit-cost", 0);
+        const annualWageGrowth = parseSimulatorNumber(document.getElementById("digital-visit-wage-growth")?.value, 3);
+
+        const assumptions = welfareTechAssumptions;
+        const monthlyStaffCost = monthlySalary * assumptions.payrollMultiplier;
+        const hourlyCost = monthlyStaffCost / assumptions.monthlyWorkHours;
+        const travelMinutesPerVisit = kmRoundTrip * assumptions.minutesPerKm;
+        const travelHoursMonthly = (visitCount * travelMinutesPerVisit) / 60;
+        const traditionalMonthlyCost = travelHoursMonthly * hourlyCost;
+        const monthlySaving = traditionalMonthlyCost - digitalMonthlyCost;
+        const perVisitTravelSaving = (travelMinutesPerVisit / 60) * hourlyCost;
+        const breakEvenVisits = digitalMonthlyCost > 0 && perVisitTravelSaving > 0 ? digitalMonthlyCost / perVisitTravelSaving : null;
+        const projections = welfareTechProjection({
+            physicalHoursMonthly: travelHoursMonthly,
+            digitalHoursMonthly: 0,
+            hourlyCost,
+            digitalCameraMonthlyCost: digitalMonthlyCost,
+            annualWageGrowth
+        });
+        const yearOne = projections[0];
+        const yearFive = projections[4];
+        const savingTone = monthlySaving >= 0 ? "is-saving" : "is-cost";
+
+        resultsEl.innerHTML = [
+            simulatorMetric("Hembesök per månad", `${formatValue(visitCount, "number")} st`, "Hembesök som ersätts av digitala hembesök"),
+            simulatorMetric("Traditionella resor", formatValue(traditionalMonthlyCost, "currency"), `${formatValue(travelHoursMonthly, "number")} timmar restid per månad`, null, "is-cost"),
+            simulatorMetric("Digital kostnad", formatValue(digitalMonthlyCost, "currency"), "Manuell kostnad per månad", null, "is-saving"),
+            simulatorMetric("Besparing per månad", formatSignedCurrency(monthlySaving), "Reskostnad minus digital kostnad", null, savingTone),
+            simulatorMetric("Besparing per år", formatSignedCurrency(yearOne.saving), `År ${yearOne.year}`, null, yearOne.saving >= 0 ? "is-saving" : "is-cost"),
+            simulatorMetric("Sparad restid", `${formatValue(travelHoursMonthly, "number")} tim/mån`, `${formatValue(travelMinutesPerVisit, "number")} min resa per hembesök`),
+            simulatorMetric("Sparad restid per år", `${formatValue(travelHoursMonthly * 12, "number")} tim/år`, `${formatValue(travelHoursMonthly, "number")} timmar per månad`),
+            simulatorMetric("Brytpunkt", breakEvenVisits === null ? "-" : formatValue(breakEvenVisits, "number"), digitalMonthlyCost > 0 ? "hembesök/månad för att täcka digital kostnad" : "ingen digital månadskostnad angiven"),
+            simulatorMetric("Ack. 5 år", formatSignedCurrency(yearFive.cumulativeSaving), `${formatPercent(annualWageGrowth)} årlig löneökning`, null, yearFive.cumulativeSaving >= 0 ? "is-saving" : "is-cost")
+        ].join("");
+
+        legend.innerHTML = `
+            <span class="legend-item"><span class="legend-color" style="background:#c04f15"></span>Traditionella resor</span>
+            <span class="legend-item"><span class="legend-color" style="background:#2a7f62"></span>Digital kostnad</span>
+        `;
+
+        drawLineChart(chart, [
+            { id: "traditional", title: "Traditionella resor", color: "#c04f15", values: projections.map(item => ({ period: item.year, value: item.traditionalAnnualCost })) },
+            { id: "digital", title: "Digital kostnad", color: "#2a7f62", values: projections.map(item => ({ period: item.year, value: item.digitalAnnualCost })) }
+        ], "currency", true);
+
+        tableBody.innerHTML = projections.map((item, index) => `
+            <tr class="${index === 0 ? "is-highlighted" : ""}">
+                <td>${item.year}</td>
+                <td>${formatValue(item.traditionalAnnualCost, "currency")}</td>
+                <td>${formatValue(item.digitalAnnualCost, "currency")}</td>
+                <td>${formatSignedCurrency(item.saving)}</td>
+                <td>${formatSignedCurrency(item.cumulativeSaving)}</td>
+            </tr>
+        `).join("");
+
+        noteEl.textContent = `Restid räknas som ${assumptions.minutesPerKm} minuter per km tur/retur. Personalkostnad räknas som månadslön x ${assumptions.payrollMultiplier.toLocaleString("sv-SE")} / ${assumptions.monthlyWorkHours} timmar. Själva tiden för insatsen kvittas, siffror avser endast resor till och från.`;
+    }
+
+    async function simulatorBasis(scenario) {
+        if (scenario.kind === "koladaPair") {
+            const [volumePoint, unitCostPoint] = await Promise.all([
+                latestKpiPoint(scenario.volumeKpi),
+                latestKpiPoint(scenario.unitCostKpi)
+            ]);
+            return {
+                volume: volumePoint?.value ?? null,
+                unitCost: unitCostPoint?.value ?? null,
+                volumePeriod: volumePoint?.period ?? "",
+                unitCostPeriod: unitCostPoint?.period ?? ""
+            };
+        }
+
+        if (scenario.kind === "socialstyrelsenElderWithKoladaCost") {
+            const regionId = currentSocialstyrelsenRegionId();
+            const volume = socialstyrelsenComparisonValue(scenario.indicatorId, "1", "3", "3", "2025", regionId);
+            const unitCostPoint = await latestKpiPoint(scenario.unitCostKpi);
+            return {
+                volume,
+                unitCost: unitCostPoint?.value ?? null,
+                volumePeriod: 2025,
+                unitCostPeriod: unitCostPoint?.period ?? ""
+            };
+        }
+
+        if (scenario.kind === "sosEconomicAssistance") {
+            const regionId = currentSocialstyrelsenRegionId();
+            const config = sosSourceConfigs["sos-ekb"];
+            const paidKsek = sosSourceValue(config, { id: "paid-excl" }, "2025", regionId);
+            const recipients = sosSourceValue(config, { id: "recipients" }, "2025", regionId);
+            if (!Number.isFinite(paidKsek) || !Number.isFinite(recipients) || recipients <= 0) return null;
+            return {
+                volume: recipients,
+                unitCost: (paidKsek * 1000) / recipients,
+                volumePeriod: 2025,
+                unitCostPeriod: 2025
+            };
+        }
+
+        return null;
+    }
+
+    function simulatorChangedVolume(baselineVolume, mode, change) {
+        const next = mode === "fixed"
+            ? baselineVolume + change
+            : baselineVolume * (1 + change / 100);
+        return Math.max(0, next);
+    }
+
+    function simulatorProjection(basis, yearOneVolume, annualGrowth) {
+        const baseYear = Math.max(Number(basis.volumePeriod) || 2025, Number(basis.unitCostPeriod) || 2025);
+        const baselineCost = basis.volume * basis.unitCost;
+        return Array.from({ length: 6 }, (_, index) => {
+            const volume = index === 0
+                ? basis.volume
+                : yearOneVolume * Math.pow(1 + annualGrowth / 100, index - 1);
+            const cost = volume * basis.unitCost;
+            return {
+                year: baseYear + index,
+                volume,
+                cost,
+                delta: cost - baselineCost
+            };
+        });
+    }
+
+    function welfareTechProjection({ physicalHoursMonthly, digitalHoursMonthly, hourlyCost, digitalCameraMonthlyCost, annualWageGrowth }) {
+        let cumulativeSaving = 0;
+        return Array.from({ length: 5 }, (_, index) => {
+            const year = welfareTechAssumptions.baseYear + index;
+            const wageFactor = Math.pow(1 + annualWageGrowth / 100, index);
+            const adjustedHourlyCost = hourlyCost * wageFactor;
+            const traditionalAnnualCost = physicalHoursMonthly * adjustedHourlyCost * 12;
+            const digitalAnnualCost = ((digitalHoursMonthly * adjustedHourlyCost) + digitalCameraMonthlyCost) * 12;
+            const saving = traditionalAnnualCost - digitalAnnualCost;
+            cumulativeSaving += saving;
+            return {
+                year,
+                traditionalAnnualCost,
+                digitalAnnualCost,
+                saving,
+                cumulativeSaving
+            };
+        });
+    }
+
+    function simulatorMetric(title, value, note, delta = null, tone = "") {
+        const valueClass = tone ? ` ${tone}` : delta === null ? "" : delta >= 0 ? " is-cost" : " is-saving";
+        return `
+            <div class="simulator-metric">
+                <div class="simulator-metric-title">${escapeHtml(title)}</div>
+                <div class="simulator-metric-value${valueClass}">${escapeHtml(value)}</div>
+                <div class="simulator-metric-note">${escapeHtml(note || "")}</div>
+            </div>
+        `;
+    }
+
+    function parseSimulatorNumber(value, fallback) {
+        const parsed = Number(String(value ?? "").replace(",", "."));
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function formatSignedNumber(value) {
+        if (value > 0) return `+${formatValue(value, "number")}`;
+        if (value < 0) return `−${formatValue(Math.abs(value), "number")}`;
+        return "0";
+    }
+
+    function formatSignedCurrency(value) {
+        if (value > 0) return `+${formatValue(value, "currency")}`;
+        if (value < 0) return `−${formatValue(Math.abs(value), "currency")}`;
+        return "0 kr";
     }
 
     function renderAllCards() {
