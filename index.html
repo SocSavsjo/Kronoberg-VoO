@@ -77,6 +77,28 @@
         font: inherit;
     }
 
+    .export-button {
+        border: 0;
+        border-radius: 6px;
+        background: var(--primary);
+        color: #fff;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 800;
+        padding: 10px 16px;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .export-button:hover,
+    .export-button:focus-visible {
+        background: var(--primary-dark);
+        outline: 2px solid transparent;
+    }
+
+    .export-button:active {
+        transform: translateY(1px);
+    }
+
     .tabs {
         display: flex;
         flex-wrap: wrap;
@@ -1001,6 +1023,37 @@
         z-index: 1;
     }
 
+    @media print {
+        body {
+            background: #fff;
+            padding: 0;
+        }
+
+        .municipality-picker,
+        .tabs,
+        .toolbar,
+        .export-button {
+            display: none !important;
+        }
+
+        .container {
+            max-width: none;
+        }
+
+        header {
+            margin-bottom: 14px;
+        }
+
+        .card,
+        .table-panel,
+        .chart-card,
+        .source-extra-card,
+        table {
+            break-inside: avoid;
+            box-shadow: none !important;
+        }
+    }
+
     @media (max-width: 1180px) {
         .header-sweden-map-card,
         .header-map-card {
@@ -1327,6 +1380,7 @@
         <div class="municipality-picker">
             <label for="municipality-select">Huvudkommun</label>
             <select id="municipality-select" aria-label="Välj huvudkommun"></select>
+            <button class="export-button" type="button" id="export-report">Exportera PDF</button>
         </div>
             <div class="header-map-card" aria-label="Karta över länets kommuner">
                 <svg class="header-county-map" viewBox="54 562 70 43" role="img" aria-label="Kommuner i länet">
@@ -3935,6 +3989,7 @@
 
     async function init() {
         setupMunicipalitySelector();
+        setupExportButton();
         renderAllCards();
         setupSocialstyrelsenTab();
         setupSocialstyrelsenMoreTabs();
@@ -4019,6 +4074,23 @@
             renderAllCards();
             await refreshDashboard();
         });
+    }
+
+    function setupExportButton() {
+        const button = document.getElementById("export-report");
+        if (button) {
+            button.addEventListener("click", exportCurrentView);
+        }
+    }
+
+    function exportCurrentView() {
+        const activeTab = document.querySelector(".tab-btn.active")?.textContent.trim() || "Socialförvaltning";
+        const originalTitle = document.title;
+        document.title = `${currentMunicipalityName()} Kommun - Socialförvaltning - ${activeTab}`;
+        window.setTimeout(() => {
+            window.print();
+            document.title = originalTitle;
+        }, 60);
     }
 
     function updateMunicipalityLabels() {
